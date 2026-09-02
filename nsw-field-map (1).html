@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodbank NSW - Community Needs & Hunger Map</title>
+
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-purple: #61259e;
+      --primary-purple-dark: #481878;
+      --purple-tint: #f4ecf8;
+      --purple-border: #e2d2ed;
+      --bg-light: #f8f6fb;
+      --text-dark: #21132b;
+      --text-muted: #62536e;
+      --accent-orange: #f26522;
+      --accent-red: #d92b2b;
+      --accent-green: #1da356;
+      --card-bg: #ffffff;
+      --shadow: 0 8px 24px rgba(97, 37, 158, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header Section */
+    header {
+      background: var(--primary-purple);
+      color: #ffffff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: #ffffff;
+      color: var(--primary-purple);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Toolbar & Search Bar */
+    .search-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-input {
+      width: 300px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background: #ffffff;
+      color: var(--text-dark);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: #ffd86b;
+    }
+
+    .search-btn {
+      padding: 10px 20px;
+      background: #ffffff;
+      border: none;
+      border-radius: 999px;
+      color: var(--primary-purple);
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .search-btn:hover {
+      background: var(--purple-tint);
+      transform: translateY(-1px);
+    }
+
+    /* Layout Main */
+    .main-container {
+      flex: 1;
+      display: flex;
+      position: relative;
+      height: calc(100vh - 65px);
+    }
+
+    /* Map Element Container */
+    #map {
+      flex: 1;
+      height: 100%;
+      width: 100%;
+      background: #e5e3df;
+    }
+
+    /* Sidebar Panel */
+    aside {
+      width: 380px;
+      background: var(--card-bg);
+      border-left: 2px solid var(--purple-border);
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+      box-shadow: -4px 0 20px rgba(97, 37, 158, 0.08);
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      background: var(--purple-tint);
+      border-bottom: 2px solid var(--purple-border);
+    }
+
+    .sidebar-header h2 {
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--primary-purple-dark);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-header p {
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .sidebar-content {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .stat-card {
+      background: var(--bg-light);
+      border: 1px solid var(--purple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary-purple);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--primary-purple-dark);
+    }
+
+    .severity-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .severity-high { background: rgba(217, 43, 43, 0.12); color: var(--accent-red); border: 1px solid var(--accent-red); }
+    .severity-med { background: rgba(242, 101, 34, 0.12); color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+    .severity-low { background: rgba(29, 163, 86, 0.12); color: var(--accent-green); border: 1px solid var(--accent-green); }
+
+    /* Customizing Leaflet Map Popups & Controls */
+    .leaflet-popup-content-wrapper {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      border-radius: 12px;
+      border: 2px solid var(--primary-purple);
+      font-family: 'Nunito', sans-serif;
+      box-shadow: var(--shadow);
+    }
+    
+    .leaflet-popup-tip {
+      background: var(--primary-purple);
+    }
+
+    /* Custom Leaflet Marker Styling */
+    .custom-div-icon {
+      background: var(--primary-purple);
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    /* Custom Search Result Marker (geocoded, non-preset locations) */
+    .custom-search-icon {
+      background: var(--accent-orange);
+      width: 30px;
+      height: 30px;
+      border: 3px solid #ffffff;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .custom-search-icon > div {
+      transform: rotate(45deg);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-container { flex-direction: column-reverse; }
+      aside { width: 100%; height: 45vh; }
+      .search-input { width: 180px; }
+      .brand-title { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand-title">
+      FOODBANK <span class="brand-badge">NSW Relief Map</span>
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search any NSW suburb, postcode or address...">
+      <button id="searchBtn" class="search-btn">Search</button>
+    </div>
+  </header>
+
+  <!-- Main View Area -->
+  <div class="main-container">
+    <div id="map"></div>
+
+    <aside>
+      <div class="sidebar-header">
+        <h2 id="locationTitle">Select a NSW Location</h2>
+        <p id="locationSub">Click on a marker, or search any NSW suburb, postcode or address to inspect local food security indicators.</p>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="stat-card">
+          <div class="stat-label">Estimated Food Relief Need</div>
+          <div class="stat-value" id="statNeed">--</div>
+          <span class="severity-pill severity-low" id="severityBadge">Select Region</span>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Vulnerable Households</div>
+          <div class="stat-value" id="statHouseholds">--</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Local Foodbank Partners</div>
+          <p id="statPartners" style="font-size: 14px; color: var(--text-muted); font-weight: 600; margin-top: 6px;">
+            Select a region on the map to display active distribution hubs and partner charities.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Leaflet JavaScript Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // 1. Define NSW Region Coordinates Data (Suburbs & Postcodes)
+      const nswLocations = [
+        { name: "Sydney CBD", postcode: "2000", lat: -33.8688, lng: 151.2093, need: "14,200 kg/mth", households: "3,850", level: "med", status: "Moderate Demand", partners: "OzHarvest Hub, Metro Food Pantry, City Care" },
+        { name: "Hornsby", postcode: "2077", lat: -33.7032, lng: 151.0983, need: "6,400 kg/mth", households: "1,220", level: "low", status: "Low-Moderate Demand", partners: "Northern Sydney Food Relief, Hornsby Community Kitchen" },
+        { name: "Parramatta", postcode: "2150", lat: -33.8150, lng: 151.0011, need: "28,500 kg/mth", households: "7,900", level: "high", status: "High Priority Need", partners: "Parramatta Mission, Western Sydney Foodbank Hub" },
+        { name: "Blacktown", postcode: "2148", lat: -33.7710, lng: 150.9063, need: "36,100 kg/mth", households: "9,800", level: "high", status: "High Priority Need", partners: "Blacktown Care Pantry, Western Relief Network" },
+        { name: "Newcastle", postcode: "2300", lat: -32.9283, lng: 151.7817, need: "18,400 kg/mth", households: "4,600", level: "med", status: "Moderate Demand", partners: "Hunter Food Relief Coalition, Newcastle Care Depot" },
+        { name: "Wollongong", postcode: "2500", lat: -34.4278, lng: 150.8931, need: "19,200 kg/mth", households: "5,100", level: "med", status: "Moderate Demand", partners: "Illawarra Food Hub, South Coast Care" },
+        { name: "Dubbo", postcode: "2830", lat: -32.2569, lng: 148.6011, need: "22,800 kg/mth", households: "6,200", level: "high", status: "High Priority Need", partners: "Western NSW Mobile Foodbank, Regional Community Supply" },
+        { name: "Wagga Wagga", postcode: "2650", lat: -35.1082, lng: 147.3598, need: "15,600 kg/mth", households: "4,100", level: "med", status: "Moderate Demand", partners: "Riverina Food Share, Salvation Army Wagga Hub" },
+        { name: "Byron Bay", postcode: "2481", lat: -28.6474, lng: 153.6166, need: "5,100 kg/mth", households: "1,150", level: "low", status: "Stable Supply", partners: "North Coast Community Pantry" },
+        { name: "Orange", postcode: "2800", lat: -33.2833, lng: 149.1000, need: "11,300 kg/mth", households: "2,950", level: "med", status: "Moderate Demand", partners: "Central West Relief Service, Orange FoodCare" },
+        { name: "Broken Hill", postcode: "2880", lat: -31.9565, lng: 141.4667, need: "17,900 kg/mth", households: "4,400", level: "high", status: "High Priority Need", partners: "Far West Relief Network, OutBack Care Depot" },
+        { name: "Albury", postcode: "2640", lat: -36.0737, lng: 146.9135, need: "12,800 kg/mth", households: "3,300", level: "med", status: "Moderate Demand", partners: "Border Foodbank, Murray Valley Care" }
+      ];
+
+      // 2. Initialize Leaflet Map Centered on NSW
+      // Center coordinates: [-32.5, 147.0], initial zoom level: 7
+      const map = L.map('map', {
+        center: [-32.5, 147.0],
+        zoom: 7,
+        minZoom: 6,
+        maxZoom: 18 // Allows zooming in to individual streets/suburbs
+      });
+
+      // 3. Set Boundary Limits (keep map constrained to NSW)
+      const nswBounds = L.latLngBounds(
+        L.latLng(-37.8, 140.0), // South-West point
+        L.latLng(-28.0, 154.0)  // North-East point
+      );
+      map.setMaxBounds(nswBounds);
+
+      // 4. Add OpenStreetMap / CartoDB Tile Layer
+      // Using CartoDB Positron for a high-contrast, clean map style matching Foodbank's design
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_2rcs_1_c3423c5ee054acde3b70bc65', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+
+      // 5. Store markers for quick search lookup
+      const markerMap = new Map();
+
+      // Tracks the single marker created for free-text/geocoded searches
+      // (locations outside the 12 preset Foodbank hubs above)
+      let customMarker = null;
+
+      // Helper function to update the sidebar details
+      function updateSidebar(loc) {
+        document.getElementById('locationTitle').textContent = `${loc.name} (${loc.postcode})`;
+        document.getElementById('locationSub').textContent = `Coordinates: ${Math.abs(loc.lat).toFixed(2)}° S, ${Math.abs(loc.lng).toFixed(2)}° E`;
+        document.getElementById('statNeed').textContent = loc.need;
+        document.getElementById('statHouseholds').textContent = loc.households;
+        document.getElementById('statPartners').textContent = loc.partners;
+
+        const badge = document.getElementById('severityBadge');
+        badge.textContent = loc.status;
+        badge.className = `severity-pill severity-${loc.level}`;
+      }
+
+      // 6. Add Custom Foodbank Markers onto the Map
+      nswLocations.forEach(loc => {
+        // Custom HTML marker styled in Foodbank purple
+        const customIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${loc.postcode.slice(-2)}</div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        });
+
+        const marker = L.marker([loc.lat, loc.lng], { icon: customIcon }).addTo(map);
+
+        // Bind popup window
+        marker.bindPopup(`
+          <div style="text-align:center; padding: 4px;">
+            <strong style="font-size:16px; color:var(--primary-purple);">${loc.name} (${loc.postcode})</strong><br>
+            <span style="font-size:13px; font-weight:700;">Relief Need: ${loc.need}</span>
+          </div>
+        `);
+
+        // Click handler to zoom into suburb and update details
+        marker.on('click', function() {
+          map.setView([loc.lat, loc.lng], 13); // Zoom to suburb/postcode level
+          updateSidebar(loc);
+        });
+
+        // Store marker in map for search indexing
+        markerMap.set(loc.name.toLowerCase(), { loc, marker });
+        markerMap.set(loc.postcode, { loc, marker });
+      });
+
+      // 7. Search Feature Implementation
+
+      // Looks up a free-text query via OpenStreetMap's Nominatim geocoder,
+      // biased to a bounding box around NSW so results stay relevant.
+      async function geocodeAddress(query) {
+        const nswViewbox = '140.0,-37.8,154.0,-28.0'; // minLon,minLat,maxLon,maxLat
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=au&viewbox=${nswViewbox}&bounded=1&q=${encodeURIComponent(query + ', NSW, Australia')}`;
+
+        const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (!response.ok) throw new Error('Geocoding request failed');
+        return response.json();
+      }
+
+      // Places (or replaces) the marker used for free-text search results,
+      // separate from the 12 preset Foodbank hub markers.
+      function showCustomLocation(lat, lng, label) {
+        if (customMarker) {
+          map.removeLayer(customMarker);
+        }
+
+        const searchIcon = L.divIcon({
+          className: 'custom-search-icon',
+          html: `<div>📍</div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 30]
+        });
+
+        customMarker = L.marker([lat, lng], { icon: searchIcon }).addTo(map);
+        customMarker.bindPopup(`
+          <div style="text-align:center; padding: 4px;">
+            <strong style="font-size:15px; color:var(--accent-orange);">${label}</strong><br>
+            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Searched location</span>
+          </div>
+        `).openPopup();
+
+        map.setView([lat, lng], 14);
+
+        document.getElementById('locationTitle').textContent = label;
+        document.getElementById('locationSub').textContent = `${Math.abs(lat).toFixed(3)}° S, ${Math.abs(lng).toFixed(3)}° E — not yet in our tracked network`;
+        document.getElementById('statNeed').textContent = 'No data yet';
+        document.getElementById('statHouseholds').textContent = '--';
+
+        const badge = document.getElementById('severityBadge');
+        badge.textContent = 'Unmapped Area';
+        badge.className = 'severity-pill severity-med';
+
+        document.getElementById('statPartners').textContent = "This location isn't part of our tracked distribution network yet. Contact Foodbank NSW to register local partners here.";
+      }
+
+      async function handleSearch() {
+        const rawQuery = document.getElementById('searchInput').value.trim();
+        const query = rawQuery.toLowerCase();
+        if (!query) return;
+
+        // 1. Try the 12 preset Foodbank hub locations first (exact, then partial match)
+        let match = markerMap.get(query);
+        if (!match) {
+          for (let [key, value] of markerMap.entries()) {
+            if (key.includes(query)) {
+              match = value;
+              break;
+            }
+          }
+        }
+
+        if (match) {
+          if (customMarker) {
+            map.removeLayer(customMarker);
+            customMarker = null;
+          }
+          map.setView([match.loc.lat, match.loc.lng], 14); // Zoom close to suburb
+          match.marker.openPopup();
+          updateSidebar(match.loc);
+          return;
+        }
+
+        // 2. Fall back to live geocoding for any other NSW suburb/postcode/address
+        const searchBtn = document.getElementById('searchBtn');
+        const originalLabel = searchBtn.textContent;
+        searchBtn.textContent = 'Searching...';
+        searchBtn.disabled = true;
+
+        try {
+          const results = await geocodeAddress(rawQuery);
+
+          if (!results || results.length === 0) {
+            alert(`Couldn't find "${rawQuery}" in NSW. Try a suburb name, postcode, or full street address.`);
+            return;
+          }
+
+          const result = results[0];
+          const lat = parseFloat(result.lat);
+          const lng = parseFloat(result.lon);
+          const label = result.display_name.split(',')[0];
+
+          showCustomLocation(lat, lng, label);
+        } catch (err) {
+          console.error(err);
+          alert('Something went wrong searching for that location. Please check your connection and try again.');
+        } finally {
+          searchBtn.textContent = originalLabel;
+          searchBtn.disabled = false;
+        }
+      }
+
+      document.getElementById('searchBtn').addEventListener('click', handleSearch);
+      document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
