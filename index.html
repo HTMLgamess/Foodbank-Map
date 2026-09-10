@@ -252,12 +252,221 @@
       line-height: 1;
     }
 
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-select {
+      min-width: 190px;
+      padding: 10px 34px 10px 14px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background: #ffffff;
+      color: var(--primary-purple);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      border-color: #ffd86b;
+    }
+
+    .route-card {
+      background: var(--purple-tint);
+      border: 1px solid var(--purple-border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .route-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .route-heading h3 {
+      font-size: 17px;
+      color: var(--primary-purple-dark);
+    }
+
+    .route-clear {
+      border: 1px solid var(--purple-border);
+      background: #fff;
+      color: var(--primary-purple);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font: 800 11px 'Nunito', sans-serif;
+      cursor: pointer;
+    }
+
+    .route-note {
+      margin: 9px 0 10px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .route-stops {
+      list-style-position: inside;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+
+    .route-stop {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #fff;
+      border: 1px solid var(--purple-border);
+      border-radius: 9px;
+      padding: 7px 8px;
+      margin: 5px 0;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .route-stop.dragging { opacity: 0.55; }
+    .route-stop .stop-grip { cursor: grab; color: var(--text-muted); }
+    .route-stop .stop-name { flex: 1; }
+    .route-stop button {
+      border: none;
+      background: transparent;
+      color: var(--accent-red);
+      font-weight: 900;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+
+    .route-primary {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 12px;
+      background: var(--primary-purple);
+      color: #fff;
+      font-family: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .route-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .route-results { margin-top: 12px; }
+    .route-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--primary-purple);
+      font-weight: 900;
+      margin: 12px 0 6px;
+    }
+
+    .route-option {
+      background: #fff;
+      border: 1px solid var(--purple-border);
+      border-radius: 10px;
+      padding: 9px;
+      margin-top: 7px;
+      cursor: pointer;
+    }
+
+    .route-option:hover, .route-option.recommended {
+      border-color: var(--primary-purple);
+      box-shadow: 0 3px 10px rgba(97,37,158,.12);
+    }
+
+    .route-option-title {
+      color: var(--primary-purple-dark);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .route-order {
+      margin: 4px 0;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--text-dark);
+      font-weight: 800;
+    }
+
+    .route-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 800;
+    }
+
+    .route-metric {
+      background: var(--bg-light);
+      border-radius: 999px;
+      padding: 3px 6px;
+    }
+
+    .postcode-note {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .postcode-marker {
+      background: #fff;
+      border: 2px solid var(--primary-purple);
+      color: var(--primary-purple);
+      border-radius: 50%;
+      box-shadow: 0 2px 7px rgba(0,0,0,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 900 8px 'Nunito', sans-serif;
+      opacity: .82;
+    }
+
+    .marker-faded { opacity: .18 !important; filter: grayscale(1); }
+    .marker-highlight { transform: scale(1.25); z-index: 1000 !important; }
+
+    .route-stop-marker {
+      box-shadow: 0 0 0 4px #ffd86b, 0 4px 10px rgba(0,0,0,.3);
+    }
+
+    .leaflet-control-layers,
+    .leaflet-control-zoom a {
+      font-family: 'Nunito', sans-serif;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .main-container { flex-direction: column-reverse; }
-      aside { width: 100%; height: 45vh; }
-      .search-input { width: 180px; }
-      .brand-title { font-size: 18px; }
+      aside { width: 100%; height: 48vh; }
+      header { padding: 10px 12px; gap: 8px; }
+      .brand-title { font-size: 16px; }
+      .brand-badge { display: none; }
+      .toolbar { flex: 1; justify-content: flex-end; }
+      .filter-select { min-width: 145px; max-width: 42vw; font-size: 11px; }
+      .search-container { max-width: 50vw; }
+      .search-input { width: 100%; min-width: 0; font-size: 12px; padding: 9px 11px; }
+      .search-btn { padding: 9px 12px; font-size: 11px; }
+      .sidebar-content { padding: 14px; }
+    }
+
+    @media (max-width: 520px) {
+      header { flex-wrap: wrap; }
+      .toolbar { width: 100%; justify-content: stretch; }
+      .filter-select { flex: 0 0 43%; max-width: none; }
+      .search-container { flex: 1; max-width: none; }
+      .search-input { width: 100%; }
     }
   </style>
 </head>
@@ -268,9 +477,20 @@
     <div class="brand-title">
       FOODBANK <span class="brand-badge">NSW Relief Map</span>
     </div>
-    <div class="search-container">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search any NSW suburb, postcode or address...">
-      <button id="searchBtn" class="search-btn">Search</button>
+    <div class="toolbar">
+      <select id="filterSelect" class="filter-select" aria-label="Filter locations">
+        <option value="all">All Locations</option>
+        <option value="high">High Priority Need</option>
+        <option value="med">Moderate Demand</option>
+        <option value="low">Low / Stable Supply</option>
+        <option value="need">Highest food relief need</option>
+        <option value="households">Highest vulnerable households</option>
+        <option value="foodbank">Foodbank locations / partners</option>
+      </select>
+      <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search any NSW suburb, postcode or address...">
+        <button id="searchBtn" class="search-btn">Search</button>
+      </div>
     </div>
   </header>
 
@@ -285,6 +505,20 @@
       </div>
 
       <div class="sidebar-content">
+        <div class="route-card">
+          <div class="route-heading">
+            <div>
+              <div class="stat-label">Route Planner</div>
+              <h3>Selected stops: <span id="routeCount">0</span></h3>
+            </div>
+            <button id="clearRouteBtn" class="route-clear" type="button">Clear</button>
+          </div>
+          <div id="routeFilterNote" class="route-note">Add locations from marker popups to build a multi-stop trip.</div>
+          <ol id="routeStops" class="route-stops"></ol>
+          <button id="findRoutesBtn" class="route-primary" type="button" disabled>Find Efficient Routes</button>
+          <div id="routeResults" class="route-results"></div>
+        </div>
+
         <div class="stat-card">
           <div class="stat-label">Estimated Food Relief Need</div>
           <div class="stat-value" id="statNeed">--</div>
@@ -313,7 +547,7 @@
     (function() {
       "use strict";
 
-      // 1. Define NSW Region Coordinates Data (Suburbs & Postcodes)
+      // 1. Existing 12 Foodbank locations — preserved exactly.
       const nswLocations = [
         { name: "Sydney CBD", postcode: "2000", lat: -33.8688, lng: 151.2093, need: "14,200 kg/mth", households: "3,850", level: "med", status: "Moderate Demand", partners: "OzHarvest Hub, Metro Food Pantry, City Care" },
         { name: "Hornsby", postcode: "2077", lat: -33.7032, lng: 151.0983, need: "6,400 kg/mth", households: "1,220", level: "low", status: "Low-Moderate Demand", partners: "Northern Sydney Food Relief, Hornsby Community Kitchen" },
@@ -329,128 +563,517 @@
         { name: "Albury", postcode: "2640", lat: -36.0737, lng: 146.9135, need: "12,800 kg/mth", households: "3,300", level: "med", status: "Moderate Demand", partners: "Border Foodbank, Murray Valley Care" }
       ];
 
-      // 2. Initialize Leaflet Map Centered on NSW
-      // Center coordinates: [-32.5, 147.0], initial zoom level: 7
+      // 2. Additional real NSW postcode-area reference points.
+      // These have no invented Foodbank statistics and are labelled "Postcode area".
+      const postcodeLocations = [
+        { name: "The Rocks", postcode: "2000", lat: -33.8599, lng: 151.209, type: "postcode" },
+        { name: "Surry Hills", postcode: "2010", lat: -33.884, lng: 151.21, type: "postcode" },
+        { name: "Redfern", postcode: "2016", lat: -33.8936, lng: 151.2046, type: "postcode" },
+        { name: "Newtown", postcode: "2042", lat: -33.8983, lng: 151.1769, type: "postcode" },
+        { name: "Balmain", postcode: "2041", lat: -33.856, lng: 151.1796, type: "postcode" },
+        { name: "Bondi", postcode: "2026", lat: -33.891, lng: 151.266, type: "postcode" },
+        { name: "Randwick", postcode: "2031", lat: -33.913, lng: 151.241, type: "postcode" },
+        { name: "Maroubra", postcode: "2035", lat: -33.95, lng: 151.241, type: "postcode" },
+        { name: "Marrickville", postcode: "2204", lat: -33.91, lng: 151.155, type: "postcode" },
+        { name: "Hurstville", postcode: "2220", lat: -33.967, lng: 151.102, type: "postcode" },
+        { name: "Bankstown", postcode: "2200", lat: -33.917, lng: 151.034, type: "postcode" },
+        { name: "Liverpool", postcode: "2170", lat: -33.92, lng: 150.925, type: "postcode" },
+        { name: "Fairfield", postcode: "2165", lat: -33.87, lng: 150.956, type: "postcode" },
+        { name: "Penrith", postcode: "2750", lat: -33.751, lng: 150.694, type: "postcode" },
+        { name: "Campbelltown", postcode: "2560", lat: -34.066, lng: 150.814, type: "postcode" },
+        { name: "Blackheath", postcode: "2785", lat: -33.635, lng: 150.284, type: "postcode" },
+        { name: "Katoomba", postcode: "2780", lat: -33.713, lng: 150.311, type: "postcode" },
+        { name: "Richmond", postcode: "2753", lat: -33.599, lng: 150.752, type: "postcode" },
+        { name: "Chatswood", postcode: "2067", lat: -33.797, lng: 151.183, type: "postcode" },
+        { name: "Manly", postcode: "2095", lat: -33.796, lng: 151.288, type: "postcode" },
+        { name: "Brookvale", postcode: "2100", lat: -33.766, lng: 151.267, type: "postcode" },
+        { name: "Ryde", postcode: "2112", lat: -33.815, lng: 151.105, type: "postcode" },
+        { name: "Epping", postcode: "2121", lat: -33.772, lng: 151.082, type: "postcode" },
+        { name: "Gosford", postcode: "2250", lat: -33.425, lng: 151.342, type: "postcode" },
+        { name: "Wyong", postcode: "2259", lat: -33.282, lng: 151.425, type: "postcode" },
+        { name: "Terrigal", postcode: "2260", lat: -33.449, lng: 151.445, type: "postcode" },
+        { name: "Cessnock", postcode: "2325", lat: -32.834, lng: 151.356, type: "postcode" },
+        { name: "Maitland", postcode: "2320", lat: -32.733, lng: 151.557, type: "postcode" },
+        { name: "Singleton", postcode: "2330", lat: -32.567, lng: 151.178, type: "postcode" },
+        { name: "Port Stephens", postcode: "2319", lat: -32.72, lng: 152.1, type: "postcode" },
+        { name: "Lake Macquarie", postcode: "2283", lat: -33.05, lng: 151.65, type: "postcode" },
+        { name: "Nelson Bay", postcode: "2315", lat: -32.721, lng: 152.143, type: "postcode" },
+        { name: "Taree", postcode: "2430", lat: -31.911, lng: 152.458, type: "postcode" },
+        { name: "Port Macquarie", postcode: "2444", lat: -31.433, lng: 152.908, type: "postcode" },
+        { name: "Coffs Harbour", postcode: "2450", lat: -30.296, lng: 153.114, type: "postcode" },
+        { name: "Grafton", postcode: "2460", lat: -29.69, lng: 152.934, type: "postcode" },
+        { name: "Lismore", postcode: "2480", lat: -28.813, lng: 153.278, type: "postcode" },
+        { name: "Ballina", postcode: "2478", lat: -28.87, lng: 153.56, type: "postcode" },
+        { name: "Tweed Heads", postcode: "2485", lat: -28.178, lng: 153.542, type: "postcode" },
+        { name: "Tamworth", postcode: "2340", lat: -31.092, lng: 150.932, type: "postcode" },
+        { name: "Armidale", postcode: "2350", lat: -30.512, lng: 151.667, type: "postcode" },
+        { name: "Moree", postcode: "2400", lat: -29.462, lng: 149.841, type: "postcode" },
+        { name: "Inverell", postcode: "2360", lat: -29.776, lng: 151.113, type: "postcode" },
+        { name: "Glen Innes", postcode: "2370", lat: -29.739, lng: 151.738, type: "postcode" },
+        { name: "Bathurst", postcode: "2795", lat: -33.419, lng: 149.58, type: "postcode" },
+        { name: "Cowra", postcode: "2794", lat: -33.835, lng: 148.689, type: "postcode" },
+        { name: "Forbes", postcode: "2871", lat: -33.384, lng: 148.008, type: "postcode" },
+        { name: "Parkes", postcode: "2870", lat: -33.137, lng: 148.176, type: "postcode" },
+        { name: "Mudgee", postcode: "2850", lat: -32.594, lng: 149.588, type: "postcode" },
+        { name: "Young", postcode: "2594", lat: -34.313, lng: 148.301, type: "postcode" },
+        { name: "Griffith", postcode: "2680", lat: -34.288, lng: 146.051, type: "postcode" },
+        { name: "Narrandera", postcode: "2700", lat: -34.747, lng: 146.55, type: "postcode" },
+        { name: "Deniliquin", postcode: "2710", lat: -35.532, lng: 144.966, type: "postcode" },
+        { name: "Leeton", postcode: "2705", lat: -34.56, lng: 146.401, type: "postcode" },
+        { name: "Tumut", postcode: "2720", lat: -35.303, lng: 148.216, type: "postcode" },
+        { name: "Queanbeyan", postcode: "2620", lat: -35.354, lng: 149.232, type: "postcode" },
+        { name: "Goulburn", postcode: "2580", lat: -34.752, lng: 149.72, type: "postcode" },
+        { name: "Bega", postcode: "2550", lat: -36.674, lng: 149.842, type: "postcode" },
+        { name: "Nowra", postcode: "2541", lat: -34.872, lng: 150.601, type: "postcode" },
+        { name: "Batlow", postcode: "2730", lat: -35.52, lng: 148.148, type: "postcode" },
+        { name: "Eden", postcode: "2551", lat: -37.064, lng: 149.903, type: "postcode" },
+        { name: "Hay", postcode: "2711", lat: -34.532, lng: 144.843, type: "postcode" },
+        { name: "Bourke", postcode: "2840", lat: -30.09, lng: 145.937, type: "postcode" },
+        { name: "Walgett", postcode: "2832", lat: -30.024, lng: 148.128, type: "postcode" },
+        { name: "Narrabri", postcode: "2390", lat: -30.327, lng: 149.783, type: "postcode" }
+      ];
+
+      const allLocations = nswLocations.map(loc => ({...loc, type: "foodbank"}))
+        .concat(postcodeLocations);
+
+      // 3. Initialize Leaflet map.
       const map = L.map('map', {
         center: [-32.5, 147.0],
         zoom: 7,
         minZoom: 6,
-        maxZoom: 18 // Allows zooming in to individual streets/suburbs
+        maxZoom: 18
       });
 
-      // 3. Set Boundary Limits (keep map constrained to NSW)
       const nswBounds = L.latLngBounds(
-        L.latLng(-37.8, 140.0), // South-West point
-        L.latLng(-28.0, 154.0)  // North-East point
+        L.latLng(-37.8, 140.0),
+        L.latLng(-28.0, 154.0)
       );
       map.setMaxBounds(nswBounds);
 
-      // 4. Add OpenStreetMap / CartoDB Tile Layer
-      // Using CartoDB Positron for a high-contrast, clean map style matching Foodbank's design
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_2rcs_1_c3423c5ee054acde3b70bc65', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 19
       }).addTo(map);
 
-      // 5. Store markers for quick search lookup
       const markerMap = new Map();
-
-      // Tracks the single marker created for free-text/geocoded searches
-      // (locations outside the 12 preset Foodbank hubs above)
+      const markerRecords = [];
       let customMarker = null;
+      let routeLine = null;
+      let selectedStops = [];
+      let routeOptions = [];
 
-      // Helper function to update the sidebar details
+      function parseMetric(value) {
+        const n = String(value || '').replace(/[^0-9.]/g, '');
+        return n ? Number(n.replace(/,/g, '')) : 0;
+      }
+
       function updateSidebar(loc) {
         document.getElementById('locationTitle').textContent = `${loc.name} (${loc.postcode})`;
-        document.getElementById('locationSub').textContent = `Coordinates: ${Math.abs(loc.lat).toFixed(2)}° S, ${Math.abs(loc.lng).toFixed(2)}° E`;
+        if (loc.type === 'postcode') {
+          document.getElementById('locationSub').textContent =
+            `${Math.abs(loc.lat).toFixed(3)}° S, ${Math.abs(loc.lng).toFixed(3)}° E — Postcode area`;
+          document.getElementById('statNeed').textContent = 'No Foodbank data';
+          document.getElementById('statHouseholds').textContent = 'Not available';
+          const badge = document.getElementById('severityBadge');
+          badge.textContent = 'Postcode area';
+          badge.className = 'severity-pill severity-low';
+          document.getElementById('statPartners').textContent =
+            'General NSW postcode reference point. No Foodbank-specific statistics have been assigned.';
+          return;
+        }
+        document.getElementById('locationSub').textContent =
+          `Coordinates: ${Math.abs(loc.lat).toFixed(2)}° S, ${Math.abs(loc.lng).toFixed(2)}° E`;
         document.getElementById('statNeed').textContent = loc.need;
         document.getElementById('statHouseholds').textContent = loc.households;
         document.getElementById('statPartners').textContent = loc.partners;
-
         const badge = document.getElementById('severityBadge');
         badge.textContent = loc.status;
         badge.className = `severity-pill severity-${loc.level}`;
       }
 
-      // 6. Add Custom Foodbank Markers onto the Map
-      nswLocations.forEach(loc => {
-        // Custom HTML marker styled in Foodbank purple
-        const customIcon = L.divIcon({
-          className: 'custom-div-icon',
-          html: `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${loc.postcode.slice(-2)}</div>`,
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
+      function isFilterMatch(loc, filter) {
+        if (filter === 'all') return true;
+        if (filter === 'foodbank') return loc.type === 'foodbank';
+        if (filter === 'high' || filter === 'med' || filter === 'low') return loc.type === 'foodbank' && loc.level === filter;
+        if (filter === 'need') {
+          const foodbanks = nswLocations.slice().sort((a,b) => parseMetric(b.need) - parseMetric(a.need));
+          return loc.type === 'foodbank' && foodbanks.slice(0, 4).some(x => x.postcode === loc.postcode);
+        }
+        if (filter === 'households') {
+          const foodbanks = nswLocations.slice().sort((a,b) => parseMetric(b.households) - parseMetric(a.households));
+          return loc.type === 'foodbank' && foodbanks.slice(0, 4).some(x => x.postcode === loc.postcode);
+        }
+        return true;
+      }
+
+      function currentAllowedLocations() {
+        const filter = document.getElementById('filterSelect').value;
+        return allLocations.filter(loc => isFilterMatch(loc, filter));
+      }
+
+      function markerMatchesSearch(loc, q) {
+        return loc.name.toLowerCase().includes(q) || String(loc.postcode).includes(q);
+      }
+
+      function applyFilter() {
+        const filter = document.getElementById('filterSelect').value;
+        markerRecords.forEach(({loc, marker, el}) => {
+          const match = isFilterMatch(loc, filter);
+          el.classList.toggle('marker-faded', !match);
+          el.classList.toggle('marker-highlight', match && filter !== 'all');
         });
+        updateRouteUI();
+      }
 
-        const marker = L.marker([loc.lat, loc.lng], { icon: customIcon }).addTo(map);
-
-        // Bind popup window
-        marker.bindPopup(`
-          <div style="text-align:center; padding: 4px;">
-            <strong style="font-size:16px; color:var(--primary-purple);">${loc.name} (${loc.postcode})</strong><br>
-            <span style="font-size:13px; font-weight:700;">Relief Need: ${loc.need}</span>
+      function routePopup(loc) {
+        const selected = selectedStops.some(x => x.postcode === loc.postcode);
+        return `<div style="text-align:center;padding:4px;min-width:160px">
+          <strong style="font-size:15px;color:var(--primary-purple)">${loc.name} (${loc.postcode})</strong><br>
+          ${loc.type === 'foodbank'
+            ? `<span style="font-size:12px;font-weight:800">${loc.status} · ${loc.need}</span>`
+            : `<span class="postcode-note">Postcode area · no Foodbank statistics</span>`}
+          <div style="margin-top:8px">
+            <button class="add-route-btn" data-postcode="${loc.postcode}"
+              style="border:0;border-radius:999px;padding:7px 11px;background:var(--primary-purple);color:#fff;font:800 11px Nunito,sans-serif;cursor:pointer">
+              ${selected ? 'Remove from Route' : 'Add to Route'}
+            </button>
           </div>
-        `);
+        </div>`;
+      }
 
-        // Click handler to zoom into suburb and update details
-        marker.on('click', function() {
-          map.setView([loc.lat, loc.lng], 13); // Zoom to suburb/postcode level
+      function bindPopupEvents(marker, loc) {
+        marker.on('popupopen', e => {
+          const node = e.popup.getElement();
+          const btn = node && node.querySelector('.add-route-btn');
+          if (btn) btn.addEventListener('click', () => {
+            toggleStop(loc);
+            marker.setPopupContent(routePopup(loc));
+          });
+        });
+      }
+
+      // 4. Render Foodbank + postcode markers.
+      allLocations.forEach(loc => {
+        let marker;
+        let el;
+
+        if (loc.type === 'foodbank') {
+          const icon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center">${loc.postcode.slice(-2)}</div>`,
+            iconSize: [32,32],
+            iconAnchor: [16,16]
+          });
+          marker = L.marker([loc.lat, loc.lng], {icon}).addTo(map);
+          marker.bindPopup(routePopup(loc));
+        } else {
+          const icon = L.divIcon({
+            className: 'postcode-marker',
+            html: loc.postcode,
+            iconSize: [27,27],
+            iconAnchor: [13.5,13.5]
+          });
+          marker = L.marker([loc.lat, loc.lng], {
+            icon,
+            opacity: 0.82,
+            autoPan: false
+          });
+          // Keep the NSW-wide postcode layer lighter at low zoom.
+          if (map.getZoom() >= 8) marker.addTo(map);
+          marker.bindPopup(routePopup(loc));
+        }
+
+        marker.on('click', () => {
+          if (loc.type === 'foodbank') map.setView([loc.lat, loc.lng], Math.max(map.getZoom(), 13));
+          else if (map.getZoom() < 10) map.setView([loc.lat, loc.lng], 10);
           updateSidebar(loc);
         });
+        bindPopupEvents(marker, loc);
 
-        // Store marker in map for search indexing
-        markerMap.set(loc.name.toLowerCase(), { loc, marker });
-        markerMap.set(loc.postcode, { loc, marker });
+        const iconEl = marker.getElement()?.querySelector('.custom-div-icon, .postcode-marker') || marker.getElement();
+        markerRecords.push({loc, marker, el: iconEl || marker.getElement()});
+        markerMap.set(loc.name.toLowerCase(), {loc, marker});
+        markerMap.set(loc.postcode, {loc, marker});
       });
 
-      // 7. Search Feature Implementation
+      function syncPostcodeVisibility() {
+        postcodeLocations.forEach(loc => {
+          const rec = markerRecords.find(x => x.loc.postcode === loc.postcode);
+          if (!rec) return;
+          if (map.getZoom() >= 8) {
+            if (!map.hasLayer(rec.marker)) rec.marker.addTo(map);
+          } else {
+            if (map.hasLayer(rec.marker)) map.removeLayer(rec.marker);
+          }
+        });
+        applyFilter();
+      }
+      map.on('zoomend', syncPostcodeVisibility);
 
-      // Looks up a free-text query via OpenStreetMap's Nominatim geocoder,
-      // biased to a bounding box around NSW so results stay relevant.
+      function toggleStop(loc) {
+        const idx = selectedStops.findIndex(x => x.postcode === loc.postcode);
+        if (idx >= 0) selectedStops.splice(idx, 1);
+        else selectedStops.push(loc);
+        routeOptions = [];
+        drawRoute(null);
+        refreshMarkerSelection();
+        updateRouteUI();
+      }
+
+      function refreshMarkerSelection() {
+        markerRecords.forEach(({loc, marker}) => {
+          const selected = selectedStops.some(x => x.postcode === loc.postcode);
+          const node = marker.getElement();
+          if (node) node.classList.toggle('route-stop-marker', selected);
+        });
+      }
+
+      function updateRouteUI() {
+        const count = selectedStops.length;
+        document.getElementById('routeCount').textContent = count;
+        document.getElementById('findRoutesBtn').disabled = count < 2;
+
+        const filter = document.getElementById('filterSelect').value;
+        const limited = selectedStops.filter(x => !isFilterMatch(x, filter)).length;
+        const note = document.getElementById('routeFilterNote');
+        note.textContent = filter === 'all'
+          ? 'Add locations from marker popups. Drag stops to reorder them manually.'
+          : `Current filter is limiting visible locations. ${currentAllowedLocations().length} matching areas are available.`;
+
+        const list = document.getElementById('routeStops');
+        list.innerHTML = '';
+        selectedStops.forEach((loc, i) => {
+          const li = document.createElement('li');
+          li.className = 'route-stop';
+          li.draggable = true;
+          li.dataset.index = i;
+          li.innerHTML = `<span class="stop-grip">☰</span><span class="stop-name">${i+1}. ${loc.name} <span class="postcode-note">(${loc.postcode})</span></span><button type="button" title="Remove stop">×</button>`;
+          li.querySelector('button').addEventListener('click', () => {
+            selectedStops.splice(i,1);
+            routeOptions = [];
+            drawRoute(null); refreshMarkerSelection(); updateRouteUI();
+          });
+          li.addEventListener('dragstart', () => li.classList.add('dragging'));
+          li.addEventListener('dragend', () => li.classList.remove('dragging'));
+          li.addEventListener('dragover', e => e.preventDefault());
+          li.addEventListener('drop', e => {
+            e.preventDefault();
+            const from = Number(li.dataset.index);
+            const to = Number([...list.children].indexOf(li));
+            if (from !== to) {
+              const moved = selectedStops.splice(from,1)[0];
+              selectedStops.splice(to,0,moved);
+              routeOptions = [];
+              drawRoute(null); refreshMarkerSelection(); updateRouteUI();
+            }
+          });
+          list.appendChild(li);
+        });
+
+        if (limited) {
+          note.textContent += ` ${limited} selected stop${limited > 1 ? 's are' : ' is'} outside the current filter; route calculations still include selected stops.`;
+        }
+        renderRouteResults();
+      }
+
+      function haversineKm(a,b) {
+        const R = 6371;
+        const rad = Math.PI / 180;
+        const dLat = (b.lat-a.lat)*rad;
+        const dLng = (b.lng-a.lng)*rad;
+        const x = Math.sin(dLat/2)**2 + Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLng/2)**2;
+        return 2 * R * Math.asin(Math.sqrt(x));
+      }
+
+      function routeDistance(route) {
+        let total = 0;
+        for (let i=1;i<route.length;i++) total += haversineKm(route[i-1],route[i]);
+        return total;
+      }
+
+      function estimateMinutes(km) {
+        // Deliberately an estimate: geographic distance is not road distance.
+        // Average speed is conservative for mixed NSW urban/regional travel.
+        return Math.round((km / 58) * 60 + Math.max(0, km - 30) * 0.04);
+      }
+
+      function formatDistance(km) {
+        return `${km < 10 ? km.toFixed(1) : Math.round(km)} km`;
+      }
+
+      function formatTime(minutes) {
+        if (minutes < 60) return `${minutes} min`;
+        const h = Math.floor(minutes/60), m = minutes%60;
+        return `${h} hr${h === 1 ? '' : 's'}${m ? ` ${m} min` : ''}`;
+      }
+
+      function routeKey(route) {
+        return route.map(x => x.postcode).join('-');
+      }
+
+      function permutationsForStops(stops) {
+        if (stops.length <= 7) {
+          return permutations(stops);
+        }
+        // For larger sets, keep the manually selected first stop fixed and
+        // generate useful alternatives from a nearest-neighbour baseline.
+        const start = stops[0], rest = stops.slice(1);
+        const nearest = [start], remaining = rest.slice();
+        while (remaining.length) {
+          const last = nearest[nearest.length-1];
+          let best = 0;
+          for (let i=1;i<remaining.length;i++) {
+            if (haversineKm(last,remaining[i]) < haversineKm(last,remaining[best])) best=i;
+          }
+          nearest.push(remaining.splice(best,1)[0]);
+        }
+        const alternatives = [nearest];
+        const reversed = [start].concat(nearest.slice(1).reverse());
+        alternatives.push(reversed);
+        for (let i=1;i<nearest.length-1;i++) {
+          const alt = nearest.slice();
+          [alt[i],alt[i+1]] = [alt[i+1],alt[i]];
+          alternatives.push(alt);
+        }
+        return alternatives;
+      }
+
+      function permutations(arr) {
+        if (arr.length <= 1) return [arr.slice()];
+        const out = [];
+        arr.forEach((v,i) => {
+          const rest = arr.slice(0,i).concat(arr.slice(i+1));
+          permutations(rest).forEach(p => out.push([v].concat(p)));
+        });
+        return out;
+      }
+
+      function findRoutes() {
+        const stops = selectedStops.slice();
+        if (stops.length < 2) return;
+
+        let routes = permutationsForStops(stops)
+          .map(order => ({order, distance: routeDistance(order)}))
+          .sort((a,b) => a.distance-b.distance);
+
+        const seen = new Set();
+        routes = routes.filter(r => {
+          const k = routeKey(r.order);
+          if (seen.has(k)) return false;
+          seen.add(k); return true;
+        });
+
+        const best = routes[0].distance || 1;
+        routeOptions = routes.slice(0, Math.min(5, routes.length)).map((r,i) => ({
+          ...r,
+          minutes: estimateMinutes(r.distance),
+          efficiency: Math.round((best / r.distance) * 100),
+          recommended: i === 0
+        }));
+        renderRouteResults();
+        drawRoute(routeOptions[0]);
+      }
+
+      function renderRouteResults() {
+        const box = document.getElementById('routeResults');
+        if (!routeOptions.length) {
+          box.innerHTML = '';
+          return;
+        }
+        box.innerHTML = `
+          <div class="route-group-title">Recommended Route</div>
+          ${routeCard(routeOptions[0], true)}
+          ${routeOptions.length > 1 ? `<div class="route-group-title">Other Possible Routes</div>` +
+            routeOptions.slice(1).map((r,i) => routeCard(r,false,i+2)).join('') : ''}
+          <div class="route-note" style="margin-top:8px">
+            Distance and time are estimates based on straight-line geographic distance; actual driving routes may differ.
+          </div>`;
+        box.querySelectorAll('.route-option').forEach(el => {
+          el.addEventListener('click', () => {
+            const idx = Number(el.dataset.routeIndex);
+            drawRoute(routeOptions[idx]);
+          });
+        });
+      }
+
+      function routeCard(r, recommended, number=1) {
+        const title = recommended ? 'Most Efficient' : `Route ${number}`;
+        return `<div class="route-option ${recommended ? 'recommended' : ''}" data-route-index="${routeOptions.indexOf(r)}">
+          <div class="route-option-title">${title}${recommended ? ' · 100%' : ''}</div>
+          <div class="route-order">${r.order.map(x => x.name).join(' → ')}</div>
+          <div class="route-metrics">
+            <span class="route-metric">${formatDistance(r.distance)}</span>
+            <span class="route-metric">${formatTime(r.minutes)}</span>
+            <span class="route-metric">${r.order.length} stops</span>
+            <span class="route-metric">${r.efficiency}% efficiency</span>
+          </div>
+        </div>`;
+      }
+
+      function drawRoute(route) {
+        if (routeLine) {
+          map.removeLayer(routeLine);
+          routeLine = null;
+        }
+        if (!route) return;
+        routeLine = L.polyline(route.order.map(x => [x.lat,x.lng]), {
+          color: '#61259e',
+          weight: 5,
+          opacity: 0.78,
+          dashArray: '10 7',
+          lineJoin: 'round'
+        }).addTo(map);
+        routeLine.bringToFront();
+      }
+
+      document.getElementById('findRoutesBtn').addEventListener('click', findRoutes);
+      document.getElementById('clearRouteBtn').addEventListener('click', () => {
+        selectedStops = [];
+        routeOptions = [];
+        drawRoute(null);
+        refreshMarkerSelection();
+        updateRouteUI();
+      });
+
+      document.getElementById('filterSelect').addEventListener('change', () => {
+        applyFilter();
+        const filter = document.getElementById('filterSelect').value;
+        if (filter !== 'all') {
+          const matches = allLocations.filter(x => isFilterMatch(x, filter));
+          if (matches.length) map.fitBounds(L.latLngBounds(matches.map(x => [x.lat,x.lng])).pad(0.12));
+        }
+      });
+
       async function geocodeAddress(query) {
-        const nswViewbox = '140.0,-37.8,154.0,-28.0'; // minLon,minLat,maxLon,maxLat
+        const nswViewbox = '140.0,-37.8,154.0,-28.0';
         const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=au&viewbox=${nswViewbox}&bounded=1&q=${encodeURIComponent(query + ', NSW, Australia')}`;
-
-        const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        const response = await fetch(url, {headers:{Accept:'application/json'}});
         if (!response.ok) throw new Error('Geocoding request failed');
         return response.json();
       }
 
-      // Places (or replaces) the marker used for free-text search results,
-      // separate from the 12 preset Foodbank hub markers.
-      function showCustomLocation(lat, lng, label) {
-        if (customMarker) {
-          map.removeLayer(customMarker);
-        }
-
-        const searchIcon = L.divIcon({
-          className: 'custom-search-icon',
-          html: `<div>📍</div>`,
-          iconSize: [30, 30],
-          iconAnchor: [15, 30]
+      function showCustomLocation(lat,lng,label) {
+        if (customMarker) map.removeLayer(customMarker);
+        const icon = L.divIcon({
+          className:'custom-search-icon',
+          html:'<div>📍</div>', iconSize:[30,30], iconAnchor:[15,30]
         });
-
-        customMarker = L.marker([lat, lng], { icon: searchIcon }).addTo(map);
-        customMarker.bindPopup(`
-          <div style="text-align:center; padding: 4px;">
-            <strong style="font-size:15px; color:var(--accent-orange);">${label}</strong><br>
-            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Searched location</span>
-          </div>
-        `).openPopup();
-
-        map.setView([lat, lng], 14);
-
+        customMarker = L.marker([lat,lng],{icon}).addTo(map);
+        customMarker.bindPopup(`<div style="text-align:center;padding:4px">
+          <strong style="font-size:15px;color:var(--accent-orange)">${label}</strong><br>
+          <span style="font-size:12px;font-weight:600;color:var(--text-muted)">Searched location</span>
+        </div>`).openPopup();
+        map.setView([lat,lng],14);
         document.getElementById('locationTitle').textContent = label;
         document.getElementById('locationSub').textContent = `${Math.abs(lat).toFixed(3)}° S, ${Math.abs(lng).toFixed(3)}° E — not yet in our tracked network`;
         document.getElementById('statNeed').textContent = 'No data yet';
         document.getElementById('statHouseholds').textContent = '--';
-
         const badge = document.getElementById('severityBadge');
         badge.textContent = 'Unmapped Area';
         badge.className = 'severity-pill severity-med';
-
-        document.getElementById('statPartners').textContent = "This location isn't part of our tracked distribution network yet. Contact Foodbank NSW to register local partners here.";
+        document.getElementById('statPartners').textContent =
+          "This location isn't part of our tracked distribution network yet. Contact Foodbank NSW to register local partners here.";
       }
 
       async function handleSearch() {
@@ -458,65 +1081,54 @@
         const query = rawQuery.toLowerCase();
         if (!query) return;
 
-        // 1. Try the 12 preset Foodbank hub locations first (exact, then partial match)
         let match = markerMap.get(query);
         if (!match) {
-          for (let [key, value] of markerMap.entries()) {
-            if (key.includes(query)) {
-              match = value;
-              break;
-            }
+          for (const [key,value] of markerMap.entries()) {
+            if (key.includes(query)) { match=value; break; }
           }
         }
 
         if (match) {
-          if (customMarker) {
-            map.removeLayer(customMarker);
-            customMarker = null;
-          }
-          map.setView([match.loc.lat, match.loc.lng], 14); // Zoom close to suburb
+          if (customMarker) { map.removeLayer(customMarker); customMarker=null; }
+          const rec = markerRecords.find(x => x.loc.postcode === match.loc.postcode);
+          if (rec && !map.hasLayer(rec.marker)) rec.marker.addTo(map);
+          map.setView([match.loc.lat,match.loc.lng],14);
           match.marker.openPopup();
           updateSidebar(match.loc);
           return;
         }
 
-        // 2. Fall back to live geocoding for any other NSW suburb/postcode/address
         const searchBtn = document.getElementById('searchBtn');
         const originalLabel = searchBtn.textContent;
         searchBtn.textContent = 'Searching...';
         searchBtn.disabled = true;
-
         try {
           const results = await geocodeAddress(rawQuery);
-
-          if (!results || results.length === 0) {
+          if (!results || !results.length) {
             alert(`Couldn't find "${rawQuery}" in NSW. Try a suburb name, postcode, or full street address.`);
             return;
           }
-
-          const result = results[0];
-          const lat = parseFloat(result.lat);
-          const lng = parseFloat(result.lon);
-          const label = result.display_name.split(',')[0];
-
-          showCustomLocation(lat, lng, label);
-        } catch (err) {
+          showCustomLocation(parseFloat(results[0].lat),parseFloat(results[0].lon),results[0].display_name.split(',')[0]);
+        } catch(err) {
           console.error(err);
           alert('Something went wrong searching for that location. Please check your connection and try again.');
         } finally {
-          searchBtn.textContent = originalLabel;
-          searchBtn.disabled = false;
+          searchBtn.textContent=originalLabel;
+          searchBtn.disabled=false;
         }
       }
 
-      document.getElementById('searchBtn').addEventListener('click', handleSearch);
-      document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          handleSearch();
-        }
+      document.getElementById('searchBtn').addEventListener('click',handleSearch);
+      document.getElementById('searchInput').addEventListener('keypress',e => {
+        if (e.key === 'Enter') handleSearch();
       });
+
+      // Initial state.
+      applyFilter();
+      updateRouteUI();
+      syncPostcodeVisibility();
 
     })();
   </script>
 </body>
-</html> 
+</html>
